@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funções em Movimento PWA</title>
+    <!-- Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f9; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        input { width: 50px; margin: 10px; }
+        canvas { margin-top: 20px; }
+
+        .container {
+            max-width: 90%; /* Ocupa quase toda a largura no celular */
+            margin: 20px auto;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Dá um efeito de profundidade */
+        }
+
+        input {
+            padding: 10px; /* Botão maior para o dedo clicar fácil */
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 60px;
+        }
+
+        canvas {
+            max-height: 400px; /* Evita que o gráfico suma da tela no mobile */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Função Afim: <i>f</i>(<i>x</i>) = <i>ax</i> + <i>b</i></h2>
+    
+    <label>Coeficiente a:</label>
+    <input type="number" id="coefA" value="1" oninput="atualizarGrafico()">
+    
+    <label>Coeficiente b:</label>
+    <input type="number" id="coefB" value="0" oninput="atualizarGrafico()">
+
+    <canvas id="meuGrafico"></canvas>
+</div>
+
+<script src="./grafico1.js"></script>
+
+</body>
+</html>
