@@ -1,4 +1,3 @@
-// Coloque isso dentro da sua tag <script>
 let chart;
 
 function atualizarGrafico() {
@@ -46,3 +45,34 @@ function atualizarGrafico() {
 
 // Garante que o gráfico só carregue quando a página estiver 100% pronta
 window.onload = atualizarGrafico;
+
+// Função para trocar de abas
+function abrirAba(evt, nomeAba) {
+    const contents = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < contents.length; i++) {
+        contents[i].style.display = "none";
+    }
+
+    const btns = document.getElementsByClassName("tab-btn");
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].classList.remove("active");
+    }
+
+    document.getElementById(nomeAba).style.display = "block";
+    evt.currentTarget.classList.add("active");
+}
+
+// Lógica do Tema Escuro
+const themeBtn = document.getElementById('theme-toggle');
+themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    
+    // Salva a preferência do usuário
+    const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+});
+
+// Aplica o tema salvo ao carregar
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+}

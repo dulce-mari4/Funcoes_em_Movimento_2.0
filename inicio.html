@@ -8,6 +8,37 @@
     <!-- Chart.js via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #4b6cb7;
+        }
+
+/* Classe que será ativada pelo botão */
+        .dark-theme {
+            --bg-color: #121212;
+            --container-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #8fa9ff;
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            transition: 0.3s; /* Suaviza a troca de tema */
+        }
+
+        .container { 
+            background-color: var(--container-bg); 
+            color: var(--text-color);
+        }
+
+        /* Estilo básico das abas */
+        .tab-menu { border-bottom: 2px solid var(--accent-color); margin-bottom: 20px; }
+        .tab-btn { background: none; border: none; padding: 10px 20px; cursor: pointer; color: var(--text-color); }
+        .tab-btn.active { border-bottom: 3px solid var(--accent-color); font-weight: bold; }
+
         body { font-family: sans-serif; padding: 20px; background: #f4f4f9; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
         input { width: 50px; margin: 10px; }
@@ -34,6 +65,27 @@
     </style>
 </head>
 <body>
+
+<div class="container">
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="abrirAba(event, 'aba-afim')">Função Afim</button>
+        <button class="tab-btn" onclick="abrirAba(event, 'aba-sobre')">Sobre</button>
+        <button id="theme-toggle">🌙</button> </div>
+
+    <div id="aba-afim" class="tab-content" style="display: block;">
+        <h2>Função Afim: $f(x) = ax + b$</h2>
+        <label>Coeficiente a:</label>
+        <input type="number" id="coefA" value="1" oninput="atualizarGrafico()">
+        <label>Coeficiente b:</label>
+        <input type="number" id="coefB" value="0" oninput="atualizarGrafico()">
+        <canvas id="meuGrafico"></canvas>
+    </div>
+
+    <div id="aba-sobre" class="tab-content" style="display: none;">
+        <h2>Sobre o Projeto</h2>
+        <p>Este PWA foi desenvolvido para visualizar funções matemáticas offline.</p>
+    </div>
+</div>
 
 <div class="container">
     <h2>Função Afim: <i>f</i>(<i>x</i>) = <i>ax</i> + <i>b</i></h2>
