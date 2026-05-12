@@ -1,114 +1,147 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funções em Movimento PWA</title>
-    <!-- Chart.js via CDN -->
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="abaco.png">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
-            --bg-color: #f4f4f9;
+            --bg-color: #f0f2f6;      /* Fundo padrão (estilo Streamlit) */
             --container-bg: #ffffff;
-            --text-color: #333333;
-            --accent-color: #4b6cb7;
+            --text-color: #31333f;
+            --accent-color: #ff4b4b;   /* Vermelho do Streamlit */
+            --input-border: #dcdde1;
         }
 
-/* Classe que será ativada pelo botão */
         .dark-theme {
-            --bg-color: #121212;
-            --container-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --accent-color: #8fa9ff;
+            --bg-color: #0e1117;      /* Fundo escuro real do Streamlit */
+            --container-bg: #262730;  /* Container escuro */
+            --text-color: #fafafa;
+            --accent-color: #ff4b4b;
+            --input-border: #464855;
         }
 
         body { 
+            font-family: sans-serif;
             background-color: var(--bg-color); 
             color: var(--text-color);
-            transition: 0.3s; /* Suaviza a troca de tema */
+            transition: background 0.3s, color 0.3s;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
 
         .container { 
             background-color: var(--container-bg); 
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        /* Menu de Abas */
+        .tab-menu { 
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--input-border);
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+
+        .tab-btn { 
+            background: none; 
+            border: none; 
+            padding: 10px 15px; 
+            cursor: pointer; 
             color: var(--text-color);
-        }
-
-        /* Estilo básico das abas */
-        .tab-menu { border-bottom: 2px solid var(--accent-color); margin-bottom: 20px; }
-        .tab-btn { background: none; border: none; padding: 10px 20px; cursor: pointer; color: var(--text-color); }
-        .tab-btn.active { border-bottom: 3px solid var(--accent-color); font-weight: bold; }
-
-        body { font-family: sans-serif; padding: 20px; background: #f4f4f9; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-        input { width: 50px; margin: 10px; }
-        canvas { margin-top: 20px; }
-
-        .container {
-            max-width: 90%; /* Ocupa quase toda a largura no celular */
-            margin: 20px auto;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Dá um efeito de profundidade */
-        }
-
-        input {
-            padding: 10px; /* Botão maior para o dedo clicar fácil */
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 60px;
+            opacity: 0.7;
         }
 
-        canvas {
-            max-height: 400px; /* Evita que o gráfico suma da tela no mobile */
+        .tab-btn.active { 
+            border-bottom: 3px solid var(--accent-color); 
+            font-weight: bold; 
+            opacity: 1;
         }
+
+        #theme-toggle {
+            margin-left: auto;
+            background: var(--input-border);
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Inputs e Layout */
+        .controles { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+        .campo { display: flex; flex-direction: column; }
+        
+        input {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--input-border);
+            padding: 8px;
+            border-radius: 5px;
+            width: 80px;
+            font-size: 16px;
+        }
+
+        canvas { width: 100% !important; margin-top: 20px; }
+        .tab-content { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="tab-menu">
-        <button class="tab-btn active" onclick="abrirAba(event, 'aba-afim')">Função Afim</button>
+        <button class="tab-btn active" onclick="abrirAba(event, 'aba-afim')">Gráfico</button>
         <button class="tab-btn" onclick="abrirAba(event, 'aba-sobre')">Sobre</button>
-        <button id="theme-toggle">🌙</button> </div>
+        <button id="theme-toggle" title="Trocar Tema">🌓</button>
+    </div>
 
     <div id="aba-afim" class="tab-content" style="display: block;">
         <h2>Função Afim: $f(x) = ax + b$</h2>
-        <label>Coeficiente a:</label>
-        <input type="number" id="coefA" value="1" oninput="atualizarGrafico()">
-        <label>Coeficiente b:</label>
-        <input type="number" id="coefB" value="0" oninput="atualizarGrafico()">
+        
+        <div class="controles">
+            <div class="campo">
+                <label>Coeficiente a:</label>
+                <input type="number" id="coefA" value="1" step="0.5" oninput="atualizarGrafico()">
+            </div>
+            <div class="campo">
+                <label>Coeficiente b:</label>
+                <input type="number" id="coefB" value="0" step="1" oninput="atualizarGrafico()">
+            </div>
+        </div>
+
         <canvas id="meuGrafico"></canvas>
     </div>
 
-    <div id="aba-sobre" class="tab-content" style="display: none;">
+    <div id="aba-sobre" class="tab-content">
         <h2>Sobre o Projeto</h2>
-        <p>Este PWA foi desenvolvido para visualizar funções matemáticas offline.</p>
+        <p>Desenvolvido para o Projeto Multidisciplinar IV.</p>
+        <p>Este app funciona totalmente <b>offline</b> como um PWA.</p>
     </div>
-</div>
-
-<div class="container">
-    <h2>Função Afim: <i>f</i>(<i>x</i>) = <i>ax</i> + <i>b</i></h2>
-    
-    <label>Coeficiente a:</label>
-    <input type="number" id="coefA" value="1" oninput="atualizarGrafico()">
-    
-    <label>Coeficiente b:</label>
-    <input type="number" id="coefB" value="0" oninput="atualizarGrafico()">
-
-    <canvas id="meuGrafico"></canvas>
 </div>
 
 <script src="./grafico1.js"></script>
 
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker registrado!', reg))
-        .catch(err => console.log('Erro no registro:', err));
-    });
-  }
+    // Registro do Service Worker para o PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log("PWA Ativo!"))
+            .catch(err => console.log("Erro PWA:", err));
+    }
 </script>
 
 </body>
