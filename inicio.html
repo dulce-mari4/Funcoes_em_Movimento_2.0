@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script src="https://polyfill.io"></script>
+    <script id="MathJax-script" async src="https://jsdelivr.net"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funções em Movimento PWA</title>
@@ -109,9 +111,24 @@
         <button id="theme-toggle" title="Trocar Tema">🌓</button>
     </div>
 
-    <div id="aba-afim" class="tab-content" style="display: block;">
-        <h2>Função Afim: $f(x) = ax + b$</h2>
+    <div id="aba-afim" class="tab-content">
+        <h1><strong>Funções de 1º Grau</strong></h1>
+        <p>A função do 1º grau é uma <strong>equação</strong> que possui 
+            incógnita, onde as letras representam valores desconhecidos. A 
+            sentença matemática da equação do 1º grau é ax + b = 0, em que 
+            <strong>a</strong> e <strong>b</strong> são números reais, e 
+            <strong>a</strong> é diferente de 0. O objetivo de escrever uma 
+            equação do 1º grau é encontrar qual é o valor da incógnita que 
+            satisfaz a equação. Esse valor é conhecido como solução ou raiz da 
+            equação.</p>
+        <p>As funções do 1º grau, também chamadas de <strong>funções afins
+            </strong>, são expressões matemáticas que descrevem uma <i>reta</i>
+            no plano cartesiano.
         
+            A forma geral da função é: </p>
+        
+        <h2>Função Afim: \( f(x) = ax + b \)</h2>
+    
         <div class="controles">
             <div class="campo">
                 <label>Coeficiente a:</label>
@@ -126,7 +143,7 @@
         <canvas id="meuGrafico"></canvas>
     </div>
 
-    <div id="aba-sobre" class="tab-content">
+    <div id="aba-sobre" class="tab-content" style="display: block;">
         <h2>Sobre o Projeto</h2>
         <p>Desenvolvido para o Projeto Multidisciplinar IV.</p>
         <p>Este app funciona totalmente <b>offline</b> como um PWA.</p>
@@ -136,6 +153,7 @@
         Dúvidas? Entre em contato pelo email: starfiresuporte@gmail.com</p> 
     </div>
 </div>
+
 
 <script src="./grafico1.js"></script>
 
